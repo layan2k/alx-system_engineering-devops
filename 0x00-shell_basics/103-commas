@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -map| grep -v / | tr '\n' ','
+ls -map
