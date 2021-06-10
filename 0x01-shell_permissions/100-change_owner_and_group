@@ -1,2 +1,2 @@
 #!/bin/bash
-chown -R betty:holberton /var/www
+chown -R betty:holberton /
