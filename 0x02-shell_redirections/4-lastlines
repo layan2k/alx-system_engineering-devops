@@ -1,2 +1,2 @@
 #!/bin/bash
-tail 14-copy_html
+tail /etc/passwd
