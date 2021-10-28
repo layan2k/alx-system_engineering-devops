@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
-$commando = "$(ls)"
+#Bash script that displays:
 
-for i in commando
+# The content of the current directory
+# In a list format
+# Where only the part of the name after the first dash is displayed
+
+
+for i in *
     do
-        echo "$l" | cut -d '-' -f
+        echo "$i" | cut -d '-' -f
     done
