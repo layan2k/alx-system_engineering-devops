@@ -5,7 +5,7 @@
 
 i=1
 
-until [ $i -gt 20 ]
+while [ $i -gt 20 ]
 do
     case $i in
     4) echo $i
