@@ -4,8 +4,6 @@
 
 j=0
 
-
-j=0
 while [ $j -le 12 ]
 do
     echo "Hour: $j"
