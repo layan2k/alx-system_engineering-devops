@@ -10,20 +10,21 @@ do
     case $i in
     4) echo $i
        echo "bad luck from China"
-       ((i++));;
+       ;;
 
     9) echo $i
        echo "bad luck from Japan"
-       ((i++))
+
        ;;
 
     17) echo $i
         echo "bad luck from Italy"
-        ((i++))
+
         ;;
 
     *) echo $i
-       ((i++));;
+       ;;
 
     esac
+    ((i++))
 done
