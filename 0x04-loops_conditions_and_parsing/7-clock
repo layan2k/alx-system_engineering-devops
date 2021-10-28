@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+#display hours from 0 to 12
+#display minutes from 1 to 59
+
+$i=1
+$j=0
+
+
+while ((i <= 60 ))
+    do
+        if ((i == 60 && j < 12))
+        then
+            ((j++))
+            ((i = 1))
+            echo Hour : $j
+            fi
+            echo $i
+            ((i++))
+
+done
+

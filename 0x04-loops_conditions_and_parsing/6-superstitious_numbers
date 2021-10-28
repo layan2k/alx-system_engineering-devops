@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+# displays 4 and then bad luck from China for the 4th loop iteration
+# displays 9 and then bad luck from Japan for the 9th loop iteration
+# displays 17 and then bad luck from Italy for the 17th loop iteration
+
+i=0
+
+until [ $i -gt 20 ]
+do
+    case $i in
+    4) echo $i
+       echo "bad luck from China"
+       ((i++));;
+
+    9) echo $i
+       echo "bad luck from Japan"
+       ((i++))
+       ;;
+
+    17) echo $i
+        echo "bad luck from Italy"
+        ((i++))
+        ;;
+
+    *) echo $i
+       ((i++));;
+
+    esac
+
+
+done

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+$commando = "$(ls)"
+
+for i in commando
+    do
+        echo "$l" | cut -d '-' -f
+    done
