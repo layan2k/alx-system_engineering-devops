@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #checks if theschool $file_name exists and prints its content if it does
- file_name = school
+ file_name=school
     if [ -e $file_name ]
     then
     echo "$file_name exists"
