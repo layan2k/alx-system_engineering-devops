@@ -27,6 +27,4 @@ do
        ((i++));;
 
     esac
-
-
 done
