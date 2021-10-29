@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-ash script that displays To infinity and beyond indefinitely.
+#Bash script that displays To infinity and beyond indefinitely.
 while :
 do
 	echo "To infinity and beyond"
