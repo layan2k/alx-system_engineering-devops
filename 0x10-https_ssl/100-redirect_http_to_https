@@ -45,6 +45,8 @@ frontend http
 frontend www-https
         bind *:443 ssl crt /etc/letsencrypt/live/www.lesliethedev.tech/fullchain.pem
         http-request set-header X-Forwarded-Proto https
+        acl letsencrypt-acl path_beg /.well-known/acme-challenge/
+        use_backend letsencrypt-backend if letsencrypt-acl
         default_backend web-backend
 
 backend web-backend
@@ -52,3 +54,6 @@ backend web-backend
         redirect scheme https code 301 if !{ ssl_fc }
         server 614-web-01 3.238.253.91:80 check
         server 614-web-02 35.237.111.104:80 check
+
+backend letsencrypt-backend
+        server letsencrypt 127.0.0.1:54321
