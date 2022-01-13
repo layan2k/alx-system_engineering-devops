@@ -1,4 +1,3 @@
-@@ -0,0 +1,50 @@
 global
         log /dev/log    local0
         log /dev/log    local1 notice
@@ -8,8 +7,6 @@ global
         user haproxy
         group haproxy
         daemon
-        maxconn 2048
-        tune.ssl.default-dh-param 2048
 
         # Default SSL material locations
         ca-base /etc/ssl/certs
@@ -25,8 +22,7 @@ defaults
         mode    http
         option  httplog
         option  dontlognull
-        option forwardfor
-        option http-server-close
+        option  forwardfor
         timeout connect 5000
         timeout client  50000
         timeout server  50000
@@ -38,23 +34,19 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
-frontend www-http
+frontend http
         bind *:80
-        reqadd X-Forwarded-Proto:\ http
-        default_backend www-backend
+        mode http
+        default_backend web-backend
 
 frontend www-https
         bind *:443 ssl crt /etc/haproxy/certs/www.lesliethedev.tech.pem
-        reqadd X-Forwarded-Proto:\ https
-        acl letsencrypt-acl path_beg /.well-known/acme-challenge/
-        use_backend letsencrypt-backend if letsencrypt-acl
-        default_backend www-backend
+        http-request set-header X-Forwarded-Proto https
+        default_backend web-backend
 
-backend www-backend
+
+backend web-backend
         balance roundrobin
         redirect scheme https if !{ ssl_fc }
         server 614-web-01 3.238.253.91:80 check
         server 614-web-02 35.237.111.104:80 check
-
-backend letsencrypt-backend
-   server letsencrypt 127.0.0.1:54321
