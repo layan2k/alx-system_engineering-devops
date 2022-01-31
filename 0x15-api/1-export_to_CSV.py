@@ -10,33 +10,30 @@ from sys import argv
 import csv
 
 
-users = requests.get('https://jsonplaceholder.typicode.com/users')
-todos = requests.get('https://jsonplaceholder.typicode.com/todos')
-
-
-def tcsv():
-    """API data"""
-    for u in users.json():
-        if u.get('id') == int(argv[1]):
-            USERNAME = (u.get('username'))
-            break
-    TASK_STATUS_TITLE = []
-    for t in todos.json():
-        if t.get('userId') == int(argv[1]):
-            TASK_STATUS_TITLE.append((t.get('completed'), t.get('title')))
-
-    """export csv"""
-    filename = "{}.csv".format(argv[1])
-    with open(filename, "w") as csvfile:
-        fieldnames = ["USER_ID", "USERNAME",
-                      "TASK_COMPLETED_STATUS", "TASK_TITLE"]
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames,
-                                quoting=csv.QUOTE_ALL)
-        for task in TASK_STATUS_TITLE:
-            writer.writerow({"USER_ID": argv[1], "USERNAME": USERNAME,
-                             "TASK_COMPLETED_STATUS": task[0],
-                             "TASK_TITLE": task[1]})
-
-
 if __name__ == "__main__":
-    tcsv()
+    url = 'https://jsonplaceholder.typicode.com/'
+
+    userid = sys.argv[1]
+    user = '{}users/{}'.format(url, userid)
+    res = requests.get(user)
+    json_o = res.json()
+    name = json_o.get('username')
+
+    todos = '{}todos?userId={}'.format(url, userid)
+    res = requests.get(todos)
+    tasks = res.json()
+    l_task = []
+    for task in tasks:
+        l_task.append([userid,
+                       name,
+                       task.get('completed'),
+                       task.get('title')])
+
+    filename = '{}.csv'.format(userid)
+    with open(filename, mode='w') as employee_file:
+        employee_writer = csv.writer(employee_file,
+                                     delimiter=',',
+                                     quotechar='"',
+                                     quoting=csv.QUOTE_ALL)
+        for task in l_task:
+            employee_writer.writerow(task)
