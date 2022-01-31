@@ -8,36 +8,34 @@ from sys import argv
 import json
 
 
-r = requests.get('https://jsonplaceholder.typicode.com/users')
-t = requests.get('https://jsonplaceholder.typicode.com/todos')
+userss = requests.get('https://jsonplaceholder.typicode.com/users')
+todos = requests.get('https://jsonplaceholder.typicode.com/todos')
 
 
 def alljson():
-    """API data"""
-    US = []
-    for items in r.json():
-        US.append((items.get('id'), items.get('username')))
-    statustask = []
-    for stuff in t.json():
-        statustask.append((stuff.get('userId'),
-                           stuff.get('completed'),
-                           stuff.get('title')))
+    """return API data"""
+    USERS = []
+    for u in userss.json():
+        USERS.append((u.get('id'), u.get('username')))
+    TASK_STATUS_TITLE = []
+    for t in todos.json():
+        TASK_STATUS_TITLE.append((t.get('userId'),
+                                  t.get('completed'),
+                                  t.get('title')))
 
-    """export json"""
+    """export to json"""
     data = dict()
-    for u in US:
-        tl = []
-        for task in statustask:
+    for u in USERS:
+        t = []
+        for task in TASK_STATUS_TITLE:
             if task[0] == u[0]:
-                tl.append({"task": task[2],
-                           "completed": task[1],
-                           "username": u[1]})
-
-        data[str(u[0])] == tl
+                t.append({"task": task[2], "completed": task[1],
+                          "username": u[1]})
+        data[str(u[0])] = t
     filename = "todo_all_employees.json"
     with open(filename, "w") as f:
         json.dump(data, f, sort_keys=True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     alljson()

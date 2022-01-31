@@ -10,36 +10,33 @@ from sys import argv
 import csv
 
 
-r = requests.get('https://jsonplaceholder.typicode.com/users')
-t = requests.get('https://jsonplaceholder.typicode.com/todos')
+users = requests.get('https://jsonplaceholder.typicode.com/users')
+todos = requests.get('https://jsonplaceholder.typicode.com/todos')
 
 
-def cvrtcsv():
+def tcsv():
     """API data"""
-    for item in r.json():
-        if item.get('id') == int(argv[1]):
-            USERN = (item.get('username'))
+    for u in users.json():
+        if u.get('id') == int(argv[1]):
+            USERNAME = (u.get('username'))
             break
-    tstatus = []
-    for stuff in t.json():
-        if stuff.get('userId') == int(argv[1]):
-            tstatus.append((stuff.get('completed'), stuff.get('title')))
+    TASK_STATUS_TITLE = []
+    for t in todos.json():
+        if t.get('userId') == int(argv[1]):
+            TASK_STATUS_TITLE.append((t.get('completed'), t.get('title')))
 
-    """ export csv"""
+    """export csv"""
     filename = "{}.csv".format(argv[1])
     with open(filename, "w") as csvfile:
-        fieldsn = ["USER_ID", "USERNAME",
-                   "TASK_COMPLETED_STATUS",
-                   "TASK_TITLE"]
-        writer = csv.DictWriter(csvfile, fieldnames=fieldsn,
-                                quoting=csv.QUOTE_NONE)
-
-        for task in tstatus:
-            writer.writerow({"USER_ID": argv[1],
-                             "USERNAME": USERN,
+        fieldnames = ["USER_ID", "USERNAME",
+                      "TASK_COMPLETED_STATUS", "TASK_TITLE"]
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames,
+                                quoting=csv.QUOTE_ALL)
+        for task in TASK_STATUS_TITLE:
+            writer.writerow({"USER_ID": argv[1], "USERNAME": USERNAME,
                              "TASK_COMPLETED_STATUS": task[0],
                              "TASK_TITLE": task[1]})
 
 
-if __name__ == '__main__':
-    cvrtcsv()
+if __name__ == "__main__":
+    tcsv()
