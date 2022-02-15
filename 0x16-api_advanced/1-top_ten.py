@@ -11,14 +11,17 @@ def top_ten(subreddit):
     """
     function ti=o query the Reddit API
     """
-    if type(subreddit) is not str or subreddit is None:
+    if subreddit is None or type(subreddit) is not str:
         print(None)
-    header = requests.utils.default_headers()
-    header.update({'User-Agent': 'My User Agent 1.0'})
+    header = {'User-Agent': 'My User Agent 1.0'}
     url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
 
     r = requests.get(url, headers=header).json()
 
-    ten = r.get(('data', {}).get('children', []))
+    ten = r.get(('data', {}).get('children', None))
 
-    return ten
+    if ten is None or (len(ten) > 0 and ten[0].get('kind') != 't3'):
+        print(None)
+    else:
+        for post in ten:
+            print(post.get('data', {}).get('title', None))
