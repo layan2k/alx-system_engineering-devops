@@ -15,8 +15,7 @@ def top_ten(subreddit):
         print(None)
         url = 'http://www.reddit.com/r/{}/hot.json'.format(subreddit)
         headers = {'User-Agent': 'My User Agent 1.0'}
-    r = requests.get(url, headers=headers,
-                     params={'limit': 10}).json()
+    r = requests.get(url, headers=headers, params={'limit': 10}).json()
     ten = r.get('data', {}).get('children', None)
     if ten is None or (len(ten) > 0 and ten[0].get('kind') != 't3'):
         print(None)
