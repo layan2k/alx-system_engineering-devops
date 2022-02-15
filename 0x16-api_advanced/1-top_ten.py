@@ -14,9 +14,9 @@ def top_ten(subreddit):
     if subreddit is None or type(subreddit) is not str:
         print(None)
     header = {'User-Agent': 'My User Agent 1.0'}
-    url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
 
-    r = requests.get(url, headers=header).json()
+    r = requests.get(url, headers=header, params={'limit': 10}).json()
 
     ten = r.get(('data', {}).get('children', None))
 
