@@ -12,21 +12,23 @@ def recurse(subreddit, hot_list=[]):
     """
     recursive function that queries the Reddit API
     """
-    header = requests.utils.default_headers()
-    header.update({'User-Agent': 'My User Agent 1.0'})
-
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    if after != "tmp":
-        url = url + "?after={}".format(after)
-    r = requests.get(url, headers=header, allow_redirects=False)
-
-    results = r.json().get('data', {}).get('children', [])
-    if not results:
+    if subreddit is None or type(subreddit) is not str:
+        return None
+    url = {'User-Agent': 'My User Agent 1.0'}
+    header =  'http://www.reddit.com/r/{}/hot.json'.format(subreddit)
+    r = requests.get(url, headers=header, params={'after': after}).json()
+    after = r.get('data', {}).get('after', None)
+    posts = r.get('data', {}).get('children', None)
+    if posts is None or (len(posts) > 0 and posts[0].get('kind') != 't3'):
+        if len(hot_list) == 0:
+            return None
         return hot_list
-    for e in results:
-        hot_list.append(e.get('data').get('title'))
-
-    after = r.json().get('data').get('after')
-    if not after:
+    else:
+        for post in posts:
+            hot_list.append(post.get('data', {}).get('title', None))
+    if after is None:
+        if len(hot_list) == 0:
+            return None
         return hot_list
-    return (recurse(subreddit, hot_list, after))
+    else:
+        return recurse(subreddit, hot_list, after)
