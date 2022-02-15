@@ -8,7 +8,7 @@ return None
 import requests
 
 
-def recurse(subreddit, hot_list=[]):
+def recurse(subreddit, hot_list=[], after="tmp"):
     """
     recursive function that queries the Reddit API
     """
