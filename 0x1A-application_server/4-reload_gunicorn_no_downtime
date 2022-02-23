@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# guinicorn restart
+pkill -HUP gunicorn
